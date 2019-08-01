@@ -1,0 +1,9 @@
+{
+  "reporter": "text",
+  "exclude": [
+    "src/model/**/*",
+    "src/core/server.js",
+    "src/core/logger.js",
+    "test"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": [
+    "airbnb-base"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "logger": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "plugins": [
+    "chai-friendly"
+  ],
+  "rules": {
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": 2
+  }
+}

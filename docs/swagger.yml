@@ -1,0 +1,542 @@
+openapi: 3.0.0
+info:
+  title: NodeJs Seed Server
+  version: '1.0.0'
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Develop server
+security:
+  - bearer: []
+paths:
+  /auth/sessions:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      tags:
+        - Auth
+      summary: Logout user
+      responses:
+        204:
+          description: OK
+        default:
+          $ref: '#/components/responses/error'
+  /auth/accessTokens:
+    post:
+      tags:
+        - Auth
+      summary: Generate access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+        default:
+          $ref: '#/components/responses/error'
+  /me:
+    get:
+      tags:
+        - Me
+      summary: Get current logged in user
+      responses:
+        200:
+          $ref: '#/components/responses/userData'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - Me
+      summary: Update current logged in user
+      requestBody:
+        $ref: '#/components/requestBodies/updateUser'
+      responses:
+        204:
+          description: OK
+        default:
+          $ref: '#/components/responses/error'
+  /users:
+    get:
+      tags:
+        - User
+      summary: List users
+      description: |
+        - **Required scopes**:
+          - user:read
+      parameters:
+        - in: query
+          name: search
+          description: Filter users by first name, last name, or username
+          schema:
+            type: string
+        - in: query
+          name: status
+          description: Filter users by status
+          schema:
+            $ref: '#/components/schemas/UserStatus'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: number
+                  results:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/User'
+                        - type: object
+                          properties:
+                            role:
+                              $ref: '#/components/schemas/Role'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      tags:
+        - User
+      summary: Add user
+      description: |
+        - **Required scope**:
+          - user:write
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - firstName
+                - lastName
+                - email
+                - username
+                - password
+                - role
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                role:
+                  type: string
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          $ref: '#/components/responses/userData'
+        default:
+          $ref: '#/components/responses/error'
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - User
+      summary: Get user data
+      description: |
+        - **Required scopes**:
+          - user:read
+      responses:
+        200:
+          $ref: '#/components/responses/userData'
+        default:
+          $ref: '#/components/responses/error'
+    patch:
+      tags:
+        - User
+      summary: Update user data
+      description: |
+        - **Required scope**:
+          - user:write
+      requestBody:
+        $ref: '#/components/requestBodies/updateUser'
+      responses:
+        204:
+          description: OK
+        default:
+          $ref: '#/components/responses/error'
+  /users/{userId}/status:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+        - User
+      summary: Update user status
+      description: |
+        - **Required scope**:
+          - user:write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  $ref: '#/components/schemas/UserStatus'
+      responses:
+        204:
+          description: OK
+        default:
+          $ref: '#/components/responses/error'
+  /roles:
+    get:
+      tags:
+        - Role
+      summary: List roles
+      description: |
+        - **Required scope**:
+          - role:read
+      parameters:
+        - in: query
+          name: search
+          description: Search role by name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/sortBy'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      tags:
+        - Role
+      summary: Add role
+      description: |
+        - **Required scope**:
+          - role:write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - permissions
+              properties:
+                name:
+                  type: string
+                permissions:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Role'
+                  - type: object
+                    properties:
+                      permissions:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Permissions'
+        default:
+          $ref: '#/components/responses/error'
+  /roles/{roleId}:
+    parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Role
+      summary: Get role data
+      description: |
+        - **Required scope**:
+          - role:read
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Role'
+                  - type: object
+                    properties:
+                      permissions:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Permissions'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      tags:
+        - Role
+      summary: Delete role
+      description: |
+        - **Required scope**:
+          - role:write
+      responses:
+        204:
+          description: OK
+        default:
+          $ref: '#/components/responses/error'
+  /permissions:
+    get:
+      tags:
+        - Permission
+        - Role
+      summary: List permissions
+      description: |
+        - **Required scope**:
+          - permission:read
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Permissions'
+        default:
+          $ref: '#/components/responses/error'
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        detail:
+          type: object
+    Permissions:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        status:
+          $ref: '#/components/schemas/UserStatus'
+        lastLogin:
+          type: string
+          format: date-time
+    UserStatus:
+      type: string
+      enum:
+        - active
+        - disabled
+        - archived
+    SortDirection:
+      type: string
+      enum:
+        - asc
+        - desc
+  parameters:
+    page:
+      in: query
+      name: page
+      description: Current page in pagination
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limit:
+      in: query
+      name: limit
+      description: Amount of items per page in pagination
+      schema:
+        type: integer
+        minimum: 1
+        default: 10
+    sortBy:
+      in: query
+      name: sortBy
+      description: Column name to sort
+      schema:
+        type: string
+    sort:
+      in: query
+      name: sort
+      description: Sort direction
+      schema:
+        $ref: '#/components/schemas/SortDirection'
+  requestBodies:
+    updateUser:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+                format: password
+              firstName:
+                type: string
+              lastName:
+                type: string
+              roleId:
+                type: string
+                description: |
+                  **ONLY** admin can update role. This field will be **INGORE** when is called by user.
+          examples:
+            userUpdate:
+              value:
+                email: 'admin1@email.com'
+                password: 'password'
+                firstName: 'John'
+                lastName: 'Doe'
+            adminUpdate:
+              value:
+                email: 'admin1@email.com'
+                password: 'password'
+                firstName: 'John'
+                lastName: 'Doe'
+                roleId: 'aa982b6f-d828-426e-9300-38bfb31554a9'
+  responses:
+    error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            unauthenticate:
+              value:
+                message: 'Unauthenticate'
+            unauthorized:
+              value:
+                message: 'Unauthorized'
+            validationError:
+              value:
+                message: 'One or more input are invalid'
+                detail:
+                  foo: 'must be unique'
+            unexpectedError:
+              value:
+                message: 'Unexpected error'
+    userData:
+      description: User data
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/User'
+              - type: object
+                properties:
+                  role:
+                    allOf:
+                      - $ref: '#/components/schemas/Role'
+                      - type: object
+                        properties:
+                          permissions:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Permissions'

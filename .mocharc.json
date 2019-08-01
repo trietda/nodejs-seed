@@ -1,0 +1,8 @@
+{
+  "file": [
+    "./test/setup/mocha.js"
+  ],
+  "extension": "spec.js",
+  "recursive": true,
+  "exit": true
+}
