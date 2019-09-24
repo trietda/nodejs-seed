@@ -1,7 +1,7 @@
 const { AjvValidator } = require('objection');
 const ajvErrors = require('ajv-errors');
 const { Model, mixin } = require('objection');
-const { format } = require('date-fns');
+const { format, parseISO } = require('date-fns');
 const { DBErrors } = require('objection-db-errors');
 
 module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
@@ -50,7 +50,8 @@ module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
     Object.entries(this.constructor.jsonSchema.properties)
       .forEach(([name, prop]) => {
         if (prop.format === 'date-time') {
-          superJson[name] = superJson[name] && format(superJson[name], 'YYYY-MM-DD HH:mm:ss');
+          const date = parseISO(superJson[name]);
+          superJson[name] = superJson[name] && format(date, 'yyyy-MM-dd HH:mm:ss');
         }
       });
 
@@ -82,13 +83,13 @@ module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
   async $beforeInsert(queryContext) {
     super.$beforeInsert(queryContext);
 
-    this.createdAt = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-    this.updatedAt = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
+    this.createdAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+    this.updatedAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
   }
 
   async $beforeUpdate(queryContext) {
     super.$beforeUpdate(queryContext);
 
-    this.updatedAt = format(new Date(), 'YYYY-MM-MM HH:mm:ss');
+    this.updatedAt = format(new Date(), 'yyyy-MM-MM HH:mm:ss');
   }
 };

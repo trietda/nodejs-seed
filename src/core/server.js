@@ -26,7 +26,6 @@ const onShutdown = async () => {
 
 module.exports = (app, model) => {
   const server = http.createServer(app);
-  server.on('listening', () => { logger.info(`Server is listening at ${PORT}`); });
 
   createTerminus(server, {
     healthChecks: {
@@ -37,6 +36,9 @@ module.exports = (app, model) => {
     onShutdown,
     signals: ['SIGINT', 'SIGTERM'],
   });
+
+  server.on('listening', () => { logger.info(`Server is listening at ${PORT}`); });
+  server.on('error', (err) => { logger.error(err);});
 
   return server;
 };

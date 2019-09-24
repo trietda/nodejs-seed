@@ -7,6 +7,7 @@ module.exports = {
     expireTime: 'JWT_EXPIRE_TIME',
   },
   database: {
+    database: 'DATABASE_DATABASE',
     host: 'DATABASE_HOST',
     port: 'DATABASE_PORT',
     user: 'DATABASE_USER',

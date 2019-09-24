@@ -1,3 +1,4 @@
+require('dotenv').config();
 const sinon = require('sinon');
 const core = require('../../src/core');
 const model = require('../../src/model');
@@ -17,4 +18,8 @@ before(async () => {
 
 afterEach(async () => {
   await truncate();
+});
+
+after(async () => {
+  await model.shutdown();
 });

@@ -2,7 +2,7 @@ const config = require('config');
 const { knexSnakeCaseMappers } = require('objection');
 const Knex = require('knex');
 
-module.exports = Knex({
+module.exports = () => Knex({
   client: 'mysql2',
 
   connection: {

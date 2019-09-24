@@ -12,6 +12,7 @@ const bootstrap = async () => {
 
   const app = core.createApp();
   const server = core.createServer(app, model);
+
   server.listen(PORT);
 };
 

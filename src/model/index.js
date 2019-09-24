@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const knex = require('./knex');
+const initKnex = require('./knex');
 const User = require('./user');
 const Role = require('./role');
 const RefreshToken = require('./refreshToken');
@@ -14,10 +14,11 @@ module.exports = {
   BlacklistToken,
 
   async init() {
+    const knex = initKnex();
     Model.knex(knex);
   },
 
   async shutdown() {
-    await knex.destroy();
+    await Model.knex().destroy();
   },
 };
