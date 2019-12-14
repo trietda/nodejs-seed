@@ -18,6 +18,21 @@ module.exports = () => Knex({
     max: parseInt(config.get('database.pool.max'), 10),
   },
 
+  log: {
+    warn(message) {
+      logger.warn(message);
+    },
+    error(message) {
+      logger.error(message);
+    },
+    deprecate(message) {
+      logger.warn(message);
+    },
+    debug(message) {
+      logger.info(message);
+    },
+  },
+
   debug: config.get('database.debug'),
 
   ...knexSnakeCaseMappers(),
