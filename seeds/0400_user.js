@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const {v4: Uuid} = require('uuid');
 const bcrypt = require('bcrypt');
 
 exports.seed = async (knex) => {
@@ -10,7 +10,7 @@ exports.seed = async (knex) => {
 
   const userData = (new Array(15)).fill(0).map((value, index) => ({
     password,
-    id: uuid(),
+    id: Uuid(),
     email: `admin${index + 1}@gmail.com`,
     username: `admin${index + 1}`,
     role_id: adminRole[0].id,

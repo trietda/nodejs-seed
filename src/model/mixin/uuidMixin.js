@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const { v4: Uuid } = require('uuid');
 
 module.exports = ({ idField = 'id' } = {}) => function UuidMixin(Model) {
   return class extends Model {
@@ -9,7 +9,7 @@ module.exports = ({ idField = 'id' } = {}) => function UuidMixin(Model) {
       if (opt.patch) {
         id = superJson[idField] || (opt.old && opt.old[idField]);
       } else {
-        id = superJson[idField] || uuid();
+        id = superJson[idField] || Uuid();
       }
 
       return {

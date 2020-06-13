@@ -1,4 +1,4 @@
-const Uuid = require('uuid/v4');
+const { v4: Uuid } = require('uuid');
 const { Model } = require('objection');
 const BaseModel = require('./baseModel');
 
