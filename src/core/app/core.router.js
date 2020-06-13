@@ -4,17 +4,20 @@ const yamlJs = require('yamljs');
 const { join } = require('path');
 const apiRouter = require('../../api/api.router');
 
-const swaggerPath = join(__dirname, '../../../docs/swagger.yml');
-const swaggerDocument = yamlJs.load(swaggerPath);
+const addRoutes = (router) => {
+  router.use('/api', apiRouter);
+};
 
-const { NODE_ENV } = process.env;
+const addSwaggerDoc = (router) => {
+  if (process.env.NODE_ENV === 'develop') {
+    const swaggerPath = join(__dirname, '../../../docs/swagger.yml');
+    const swaggerDocument = yamlJs.load(swaggerPath);
+    router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  }
+};
 
 const router = express.Router();
-
-router.use('/api', apiRouter);
-
-if (NODE_ENV === 'develop') {
-  router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
+addRoutes(router);
+addSwaggerDoc(router);
 
 module.exports = router;

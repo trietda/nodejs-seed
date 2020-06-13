@@ -1,4 +1,5 @@
 require('dotenv').config();
+const Promise = require('bluebird');
 const config = require('config');
 const core = require('./core');
 const model = require('./model');
@@ -6,7 +7,6 @@ const model = require('./model');
 const PORT = parseInt(config.get('server.port'), 10);
 
 const bootstrap = async () => {
-  core.initGlobal();
   await model.init();
 };
 
@@ -18,6 +18,7 @@ const listen = () => {
 
 (async () => {
   try {
+    core.initGlobal();
     await bootstrap();
     listen();
   } catch (err) {

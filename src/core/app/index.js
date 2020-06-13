@@ -7,8 +7,6 @@ const router = require('./core.router');
 const notFoundHandler = require('./notFound');
 const unexpectedErrorHandler = require('./unexpectedError');
 
-const { NODE_ENV } = process.env;
-
 module.exports = () => {
   const app = express();
 
@@ -24,7 +22,7 @@ module.exports = () => {
   app.use(cors(corsOptions));
 
   /* istanbul ignore next */
-  if (NODE_ENV !== 'test') {
+  if (process.env.NODE_ENV !== 'test') {
     app.use(morgan('common'));
   }
 
