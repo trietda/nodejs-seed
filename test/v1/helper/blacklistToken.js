@@ -1,4 +1,4 @@
-const { BlacklistToken } = require('../../../src/model');
+const { BlacklistToken } = require('../../../src/database');
 
 module.exports = {
   getById(id) {

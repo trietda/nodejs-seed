@@ -1,7 +1,7 @@
 require('dotenv').config();
 const sinon = require('sinon');
 const core = require('../../src/core');
-const model = require('../../src/model');
+const model = require('../../src/database');
 const truncate = require('./truncate');
 
 before(async () => {

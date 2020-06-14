@@ -31,38 +31,18 @@ module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
     return true;
   }
 
-  $parseDatabaseJson(json) {
-    const superJson = super.$parseDatabaseJson(json);
-
-    Object.entries(this.constructor.jsonSchema.properties)
-      .forEach((name, prop) => {
-        if (prop.format === 'date-time') {
-          superJson[name] = superJson[name] && new Date(superJson[name]);
-        }
-      });
-
-    return json;
-  }
-
   $formatDatabaseJson(json) {
     const superJson = super.$formatDatabaseJson(json);
 
     Object.entries(this.constructor.jsonSchema.properties)
       .forEach(([name, prop]) => {
         if (prop.format === 'date-time') {
-          const date = parseISO(superJson[name]);
+          const date = superJson[name] instanceof Date
+            ? superJson[name]
+            : parseISO(superJson[name]);
           superJson[name] = superJson[name] && format(date, 'yyyy-MM-dd HH:mm:ss');
         }
       });
-
-    return json;
-  }
-
-  $parseJson(json, opt) {
-    const superJson = super.$parseJson(json, opt);
-
-    delete superJson.createdAt;
-    delete superJson.updatedAt;
 
     return superJson;
   }
@@ -74,23 +54,41 @@ module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
       .forEach(([name, prop]) => {
         if (prop.format === 'date-time') {
           // eslint-disable-next-line no-param-reassign
-          json[name] = json[name] && json[name].toISOString();
+          json[name] = json[name] && (json[name] instanceof Date
+            ? json[name].toISOString()
+            : json[name]);
         }
       });
 
     return jsonSchema;
   }
 
+  $afterValidate(json, opt) {
+    super.$afterValidate(json, opt);
+
+    Object.entries(this.constructor.jsonSchema.properties)
+      .forEach(([name, prop]) => {
+        if (prop.format === 'date-time') {
+          // eslint-disable-next-line no-param-reassign
+          json[name] = json[name] && new Date(json[name]);
+        }
+      });
+  }
+
   async $beforeInsert(queryContext) {
     super.$beforeInsert(queryContext);
 
-    this.createdAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
-    this.updatedAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+    if (!this.createdAt) {
+      this.createdAt = new Date();
+    }
+    if (!this.updatedAt) {
+      this.updatedAt = new Date();
+    }
   }
 
   async $beforeUpdate(queryContext) {
     super.$beforeUpdate(queryContext);
 
-    this.updatedAt = format(new Date(), 'yyyy-MM-MM HH:mm:ss');
+    this.updatedAt = new Date();
   }
 };

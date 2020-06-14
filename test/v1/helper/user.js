@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { User } = require('../../../src/model');
+const { User } = require('../../../src/database');
 
 module.exports = {
   async getUser(userId) {

@@ -1,17 +1,17 @@
 require('dotenv').config();
 const config = require('config');
 const core = require('./core');
-const model = require('./model');
+const database = require('./database');
 
 const PORT = parseInt(config.get('server.port'), 10);
 
 const bootstrap = async () => {
-  await model.init();
+  await database.init();
 };
 
 const listen = () => {
   const app = core.createApp();
-  const server = core.createServer(app, model);
+  const server = core.createServer(app, database);
   server.listen(PORT);
 };
 

@@ -1,6 +1,6 @@
 const { transaction } = require('objection');
 const { ValidationError } = require('../../../error');
-const { User, RefreshToken, BlacklistToken } = require('../../../model');
+const { User, RefreshToken, BlacklistToken } = require('../../../database');
 
 // eslint-disable-next-line arrow-body-style
 const doesArchiveNonDisabledUser = (status, user) => {

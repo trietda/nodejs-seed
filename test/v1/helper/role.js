@@ -1,6 +1,6 @@
 const faker = require('faker');
 const { transaction: startTransaction } = require('objection');
-const { Role } = require('../../../src/model');
+const { Role } = require('../../../src/database');
 
 module.exports = class RoleFactory {
   static async getRole(roleId, transaction = null) {

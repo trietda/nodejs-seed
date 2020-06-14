@@ -3,7 +3,7 @@ const faker = require('faker');
 const sinon = require('sinon');
 const chai = require('chai');
 const chaiAsPromise = require('chai-as-promised');
-const { User } = require('../../../src/model');
+const { User } = require('../../../src/database');
 const { addRole } = require('../helper/role');
 
 const { expect } = chai;

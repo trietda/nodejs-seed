@@ -1,7 +1,7 @@
 const { transaction } = require('objection');
 const {
   User, Role, Permission, RefreshToken, BlacklistToken,
-} = require('../../src/model');
+} = require('../../src/database');
 
 module.exports = async () => {
   const knex = User.knex();

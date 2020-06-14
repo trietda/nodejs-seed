@@ -3,7 +3,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { compare } = require('bcrypt');
 const { AuthenticationError } = require('../../../error');
-const { User, RefreshToken, BlacklistToken } = require('../../../model');
+const { User, RefreshToken, BlacklistToken } = require('../../../database');
 const { getUser } = require('../user/user.service');
 const AuthErrorMessage = require('./authErrorMessage');
 

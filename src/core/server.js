@@ -12,11 +12,11 @@ const onBeforeShutdown = async () => {
   logger.info('Server is shutting down');
 };
 
-const onSignal = async (model) => {
+const onSignal = async (database) => {
   logger.info('Server is cleaning up');
 
   logger.info('Database is disconnecting');
-  await model.shutdown();
+  await database.shutdown();
   logger.info('Database disconnected');
 };
 
@@ -24,7 +24,7 @@ const onShutdown = async () => {
   logger.info('Server shut down');
 };
 
-module.exports = (app, model) => {
+module.exports = (app, database) => {
   const server = http.createServer(app);
 
   createTerminus(server, {
@@ -32,7 +32,7 @@ module.exports = (app, model) => {
       '/healthCheck': onHealthCheck,
     },
     beforeShutdown: onBeforeShutdown,
-    onSignal: onSignal.bind(null, model),
+    onSignal: onSignal.bind(null, database),
     onShutdown,
     signals: ['SIGINT', 'SIGTERM'],
   });

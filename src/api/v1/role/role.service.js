@@ -1,6 +1,6 @@
 const { transaction } = require('objection');
 const { HttpError } = require('../../../error');
-const { Role } = require('../../../model');
+const { Role } = require('../../../database');
 
 const validatePermissions = (permissions) => {
   if (!permissions || !permissions.length) {

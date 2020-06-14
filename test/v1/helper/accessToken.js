@@ -1,7 +1,7 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { RefreshToken } = require('../../../src/model');
+const { RefreshToken } = require('../../../src/database');
 const { addUser } = require('./user');
 const { addRole } = require('./role');
 

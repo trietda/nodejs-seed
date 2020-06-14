@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { Permission } = require('../../../src/model');
+const { Permission } = require('../../../src/database');
 
 module.exports = class PermissionFactory {
   static async addPermission(data) {
