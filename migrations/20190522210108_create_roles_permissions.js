@@ -1,4 +1,4 @@
-exports.up = knex => knex.schema.createTable('role_permission', (table) => {
+exports.up = (knex) => knex.schema.createTable('role_permission', (table) => {
   table.uuid('role_id')
     .notNullable()
     .references('id')
@@ -14,4 +14,4 @@ exports.up = knex => knex.schema.createTable('role_permission', (table) => {
   table.unique(['role_id', 'permission_id'], 'rp_role_id_permission_id_uqc');
 });
 
-exports.down = knex => knex.schema.dropTable('role_permission');
+exports.down = (knex) => knex.schema.dropTable('role_permission');

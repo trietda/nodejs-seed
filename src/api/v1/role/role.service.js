@@ -40,7 +40,7 @@ module.exports = class RoleService {
         .allowInsert('[permissions]')
         .insertGraph({
           ...data,
-          permissions: data.permissions.map(permissionId => ({ id: permissionId })),
+          permissions: data.permissions.map((permissionId) => ({ id: permissionId })),
         }, {
           relate: true,
         });
@@ -69,7 +69,7 @@ module.exports = class RoleService {
         .upsertGraph({
           ...data,
           id: roleId,
-          permissions: data.permissions.map(permissionId => ({ id: permissionId })),
+          permissions: data.permissions.map((permissionId) => ({ id: permissionId })),
         }, {
           relate: true,
           unrelate: true,

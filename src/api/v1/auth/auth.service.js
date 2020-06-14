@@ -12,7 +12,7 @@ const JWT_EXPIRE_TIME = parseInt(config.get('jwt.expireTime'), 10);
 
 const generateAccessToken = async function generateAccessToken(user, refreshToken) {
   const payload = {
-    permissions: user.role.permissions.map(permission => permission.name),
+    permissions: user.role.permissions.map((permission) => permission.name),
   };
 
   if (refreshToken) {

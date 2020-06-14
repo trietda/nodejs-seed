@@ -1,4 +1,4 @@
-exports.up = knex => knex.schema.createTable('refresh_token', (table) => {
+exports.up = (knex) => knex.schema.createTable('refresh_token', (table) => {
   table.uuid('id').primary('rt_id_pk');
   table.uuid('token');
   table.uuid('user_id')
@@ -12,4 +12,4 @@ exports.up = knex => knex.schema.createTable('refresh_token', (table) => {
   table.unique(['token', 'user_id'], 'rt_token_user_id_uqc');
 });
 
-exports.down = knex => knex.schema.dropTable('refresh_token');
+exports.down = (knex) => knex.schema.dropTable('refresh_token');

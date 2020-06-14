@@ -1,4 +1,4 @@
-exports.up = knex => knex.schema.createTable('user', (table) => {
+exports.up = (knex) => knex.schema.createTable('user', (table) => {
   table.uuid('id').primary('u_id_pk').notNullable();
   table.string('first_name');
   table.string('last_name');
@@ -9,4 +9,4 @@ exports.up = knex => knex.schema.createTable('user', (table) => {
   table.timestamps(false, true);
 });
 
-exports.down = knex => knex.schema.dropTable('user');
+exports.down = (knex) => knex.schema.dropTable('user');

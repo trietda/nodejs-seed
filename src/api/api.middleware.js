@@ -30,7 +30,7 @@ const parseForeignKeyColumn = (rawColumnName) => {
   return [camelcase(referredColumn)];
 };
 
-const parseNormalColumnName = rawColumnName => [camelcase(rawColumnName)];
+const parseNormalColumnName = (rawColumnName) => [camelcase(rawColumnName)];
 
 const parseUniqueCompoundColumnName = (rawColumnName) => {
   switch (rawColumnName) {

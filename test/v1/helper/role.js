@@ -17,7 +17,7 @@ module.exports = class RoleFactory {
         .insertGraph({
           ...defaultData,
           ...roleData,
-          permissions: permissionIds.map(id => ({ id })),
+          permissions: permissionIds.map((id) => ({ id })),
           caiditme: 'asdf',
         }, {
           relate: true,

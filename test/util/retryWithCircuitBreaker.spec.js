@@ -16,8 +16,10 @@ describe('Integration test withRetry() and withCircuitBreaker()', () => {
 
     const action = sinon.stub()
       .onCall(0).rejects(new Error())
-      .onCall(1).rejects(new Error())
-      .onCall(2).resolves(result);
+      .onCall(1)
+      .rejects(new Error())
+      .onCall(2)
+      .resolves(result);
 
     const actionWithCircuitBreaker = withCircuitBreaker(action);
     const actionWithRetryAndCircuitBreaker = withRetry(actionWithCircuitBreaker);
@@ -26,4 +28,3 @@ describe('Integration test withRetry() and withCircuitBreaker()', () => {
     expect(action).to.be.calledThrice;
   });
 });
-

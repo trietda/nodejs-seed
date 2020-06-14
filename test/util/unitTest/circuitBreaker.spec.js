@@ -24,12 +24,18 @@ describe('withCircuitBreaker()', () => {
   it('should throw break error if execute action more than retry time, after cool-down period, action is called again, ', async () => {
     const action = sinon.stub()
       .onCall(0).rejects(new Error())
-      .onCall(1).rejects(new Error())
-      .onCall(2).resolves()
-      .onCall(3).rejects(new Error())
-      .onCall(4).rejects(new Error())
-      .onCall(5).rejects(new Error())
-      .onCall(6).resolves();
+      .onCall(1)
+      .rejects(new Error())
+      .onCall(2)
+      .resolves()
+      .onCall(3)
+      .rejects(new Error())
+      .onCall(4)
+      .rejects(new Error())
+      .onCall(5)
+      .rejects(new Error())
+      .onCall(6)
+      .resolves();
 
     const circuitBreaker = withCircuitBreaker(action, {
       breakTimeout: 1000,

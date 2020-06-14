@@ -1,4 +1,4 @@
-const {v4: Uuid} = require('uuid');
+const { v4: Uuid } = require('uuid');
 
 exports.seed = async (knex) => {
   const seedDate = new Date();

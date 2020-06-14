@@ -38,7 +38,7 @@ module.exports = (app, model) => {
   });
 
   server.on('listening', () => { logger.info(`Server is listening at ${PORT}`); });
-  server.on('error', (err) => { logger.error(err);});
+  server.on('error', (err) => { logger.error(err); });
 
   return server;
 };

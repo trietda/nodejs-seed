@@ -1,4 +1,4 @@
-const {v4: Uuid} = require('uuid');
+const { v4: Uuid } = require('uuid');
 const bcrypt = require('bcrypt');
 
 exports.seed = async (knex) => {

@@ -1,5 +1,4 @@
 require('dotenv').config();
-const Promise = require('bluebird');
 const config = require('config');
 const core = require('./core');
 const model = require('./model');

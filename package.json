@@ -11,6 +11,11 @@
     "coverage": "NODE_ENV=test nyc mocha",
     "db:seed": "knex seed:run"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "author": "Triet Dang",
   "license": "ISC",
   "dependencies": {
@@ -34,8 +39,10 @@
     "mysql2": "^2.1.0",
     "objection": "^2.2.0",
     "objection-db-errors": "^1.1.2",
+    "swagger-ui-express": "^4.1.4",
     "uuid": "^8.1.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -46,13 +53,12 @@
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-plugin-import": "^2.21.2",
     "faker": "^4.1.0",
+    "husky": "^4.2.5",
     "mocha": "^8.0.1",
     "node-mocks-http": "^1.8.1",
     "nyc": "^15.1.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
-    "supertest": "^4.0.2",
-    "swagger-ui-express": "^4.1.4",
-    "yamljs": "^0.3.0"
+    "supertest": "^4.0.2"
   }
 }

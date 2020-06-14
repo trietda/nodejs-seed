@@ -12,7 +12,7 @@ const blacklistToken = async (userId, { query }) => {
     .query(query)
     .where({ userId });
 
-  const blacklistTokenData = refreshTokens.map(token => ({ tokenId: token.id }));
+  const blacklistTokenData = refreshTokens.map((token) => ({ tokenId: token.id }));
 
   await BlacklistToken.query(query).insert(blacklistTokenData);
 };

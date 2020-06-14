@@ -1,7 +1,7 @@
-exports.up = knex => knex.schema.alterTable('user', (table) => {
+exports.up = (knex) => knex.schema.alterTable('user', (table) => {
   table.string('status').notNullable().defaultTo('active');
 });
 
-exports.down = knex => knex.schema.alterTable('user', (table) => {
+exports.down = (knex) => knex.schema.alterTable('user', (table) => {
   table.dropColumn('status');
 });

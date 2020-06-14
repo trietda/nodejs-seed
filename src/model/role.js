@@ -2,9 +2,7 @@ const { mixin } = require('objection');
 const BaseModel = require('./baseModel');
 const UuidMixin = require('./mixin/uuidMixin');
 
-const slugify = (value) => {
-  return value.toLowerCase().split(' ').join('_');
-};
+const slugify = (value) => value.toLowerCase().split(' ').join('_');
 
 module.exports = class Role extends mixin(BaseModel, [UuidMixin()]) {
   static get tableName() {

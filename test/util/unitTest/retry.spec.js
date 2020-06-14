@@ -26,7 +26,7 @@ describe('withRetry()', () => {
     const maxRetry = 3;
     const action = sinon.stub();
 
-    for (let i = 0; i < maxRetry; i++) {
+    for (let i = 0; i < maxRetry; i += 1) {
       action.onCall(i).rejects(new Error());
     }
 
@@ -35,4 +35,3 @@ describe('withRetry()', () => {
     await expect(actionWithRetry()).to.be.rejectedWith(RetryError);
   });
 });
-

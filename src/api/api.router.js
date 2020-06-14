@@ -11,9 +11,5 @@ router.use(apiMiddleware.handleDatabaseError);
 router.use(apiMiddleware.handleHttpError);
 router.use(apiMiddleware.handleAuthenticateError);
 router.use(apiMiddleware.handleAuthorizationError);
-router.use((err, req, res, next) => {
-  console.log(err);
-  next();
-});
 
 module.exports = router;

@@ -73,6 +73,7 @@ module.exports = class BaseModel extends mixin(Model, [DBErrors]) {
     Object.entries(this.constructor.jsonSchema.properties)
       .forEach(([name, prop]) => {
         if (prop.format === 'date-time') {
+          // eslint-disable-next-line no-param-reassign
           json[name] = json[name] && json[name].toISOString();
         }
       });

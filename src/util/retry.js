@@ -6,7 +6,7 @@ module.exports = (action, options = {}) => {
   } = options;
 
   let tryNo = 0;
-  let errors = [];
+  const errors = [];
 
   return async function retry() {
     try {
@@ -20,7 +20,7 @@ module.exports = (action, options = {}) => {
 
       tryNo += 1;
 
-      return await retry();
+      return retry();
     }
   };
 };
