@@ -1,25 +1,25 @@
 const stringify = require('fast-safe-stringify');
 const { createLogger, transports, format } = require('winston');
 
-const customSimpleFormat = format.printf(
-  ({
+const customSimpleFormat = format.printf((config) => {
+  const {
     level, message, timestamp, stack, ...rest
-  }) => {
-    if (stack) {
-      return `${timestamp}: ${level} ${message} ${stack}`;
-    }
+  } = config;
 
-    const meta = Object.keys(rest).length > 0 ? stringify(rest) : '';
+  if (stack) {
+    return `${timestamp}: ${level} ${message} ${stack}`;
+  }
 
-    return `${timestamp}: ${level} ${message} ${meta}`;
-  },
-);
+  const meta = Object.keys(rest).length > 0 ? stringify(rest) : '';
+
+  return `${timestamp}: ${level} ${message} ${meta}`;
+});
 
 module.exports = () => {
   const logger = createLogger({
     format: format.combine(
       format.timestamp({
-        format: 'yyyy-MM-dd HH:mm:ss',
+        format: 'YYYY-MM-dd HH:mm:ss',
       }),
       format.errors({ stack: true }),
       format.json(),
@@ -27,7 +27,7 @@ module.exports = () => {
     exitOnError: true,
   });
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV !== 'production') {
     logger.add(new transports.Console({
       level: 'debug',
       format: format.combine(
