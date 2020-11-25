@@ -1,6 +1,0 @@
-{
-  "file": [
-    "./test/setup/mocha.js"
-  ],
-  "recursive": true
-}

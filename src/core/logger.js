@@ -1,6 +1,15 @@
 const stringify = require('fast-safe-stringify');
 const { createLogger, transports, format } = require('winston');
 
+const replacer = (key, value) => {
+  if (value === '[Circular]') {
+    return;
+  }
+
+  // eslint-disable-next-line consistent-return
+  return value;
+};
+
 const customSimpleFormat = format.printf((config) => {
   const {
     level, message, timestamp, stack, ...rest
@@ -10,7 +19,7 @@ const customSimpleFormat = format.printf((config) => {
     return `${timestamp}: ${level} ${message} ${stack}`;
   }
 
-  const meta = Object.keys(rest).length > 0 ? stringify(rest) : '';
+  const meta = Object.keys(rest).length > 0 ? stringify(rest, replacer, 2) : '';
 
   return `${timestamp}: ${level} ${message} ${meta}`;
 });

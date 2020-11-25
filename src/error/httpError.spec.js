@@ -1,13 +1,12 @@
 const faker = require('faker');
-const { expect } = require('chai');
-const HttpError = require('../../../src/error/httpError');
+const HttpError = require('./httpError');
 
 describe('HttpError', () => {
   it('should init with correct message', () => {
     const nestedError = new HttpError({ message: 'error' });
 
-    expect(nestedError.message).to.equal('error');
-    expect(nestedError.statusCode).to.equal(500);
+    expect(nestedError.message).toBe('error');
+    expect(nestedError.statusCode).toBe(500);
   });
 
   it('should init with correct message, status code, and additional data', () => {
@@ -23,12 +22,12 @@ describe('HttpError', () => {
       data: otherData,
     });
 
-    expect(nestedError.message).to.equal('error');
-    expect(nestedError.statusCode).to.equal(400);
-    expect(nestedError.cause).to.equal(error);
+    expect(nestedError.message).toBe('error');
+    expect(nestedError.statusCode).toBe(400);
+    expect(nestedError.cause).toBe(error);
 
     Object.entries(otherData, ([key, value]) => {
-      expect(nestedError).to.have.property(key, value);
+      expect(nestedError).toHaveProperty(key, value);
     });
   });
 });

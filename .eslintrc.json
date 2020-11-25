@@ -3,7 +3,7 @@
     "commonjs": true,
     "es6": true,
     "node": true,
-    "mocha": true
+    "jest/globals": true
   },
   "extends": [
     "airbnb-base"
@@ -17,10 +17,9 @@
     "ecmaVersion": 2018
   },
   "plugins": [
-    "chai-friendly"
+    "jest"
   ],
   "rules": {
-    "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2
+    "no-unused-expressions": 0
   }
 }

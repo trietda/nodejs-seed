@@ -4,6 +4,7 @@ const { ValidationError } = require('../error');
 
 const ajv = new Ajv({
   allErrors: true,
+  jsonPointers: true,
 });
 
 ajvError(ajv);

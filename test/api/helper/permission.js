@@ -1,7 +1,7 @@
 const faker = require('faker');
 const { Permission } = require('../../../src/database');
 
-module.exports = class PermissionFactory {
+module.exports = class TestPermissionFactory {
   static async addPermission(data) {
     const defaultData = {
       name: faker.fake('{{lorem.word}}:{{lorem.word}}'),
@@ -18,7 +18,7 @@ module.exports = class PermissionFactory {
     const promises = [];
 
     for (let i = 0; i < amount; i += 1) {
-      promises.push(PermissionFactory.addPermission());
+      promises.push(TestPermissionFactory.addPermission());
     }
 
     return Promise.all(promises);
